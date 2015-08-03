@@ -34,13 +34,6 @@ else
 	classifier = Classifier()
 	classifier:setModel( Model() )
 	results = {}
-	results.setup = {
-		batchSize = params.batchSize,
-		learningRate = params.learningRate,
-		learningRateDecay = params.learningRateDecay,
-		momentum = params.momentum,
-		weightDecay = params.weightDecay
-	}
 	results.summary = {
 		totalTrainTime = 0,
 		totalTrainTestTime = 0,
@@ -48,6 +41,14 @@ else
 	}
 	results.epochs = {}
 end
+results.setup = {
+	batchSize = params.batchSize,
+	learningRate = params.learningRate,
+	learningRateDecay = params.learningRateDecay,
+	momentum = params.momentum,
+	weightDecay = params.weightDecay
+}
+
 classifier:setCriterion( nn.ClassNLLCriterion() )
 classifier.trainBatchSize = params.batchSize
 classifier.learningRate = params.learningRate
@@ -120,6 +121,16 @@ for epoch = #results.epochs + 1, params.maxEpochs, 1 do
 		if timer:time().real >= params.maxSeconds then
 			break
 		end
+		io.write( string.format(
+			"%-11s%-11s%-11s%-11s%-11s%-11s%-11s\n",
+			"Epoch",
+			"TrainTime",
+			"ValTime",
+			"TrainAcc",
+			"ValAcc",
+			"TrainLoss",
+			"ValLoss"
+		) )
 	end
 end
 

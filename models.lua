@@ -1,6 +1,7 @@
 --require "cunn"
 require "cudnn"
 
+--[[
 Model2 = function()
 	local model
 	model = nn.Sequential()
@@ -19,6 +20,7 @@ Model2 = function()
 	model:add( nn.LogSoftMax() )
 	return model
 end
+--]]
 
 Model = function()
 	local model
