@@ -249,20 +249,21 @@ Classifier = function( saveFile )
 			function( inputBatch, targetBatch )
 				local feval
 				feval = function( x )
-						local inputs, targets, f, df_do, predictions, gradients
-						inputs = self._:InputBatch( inputBatch )
-						targets = self._:TargetBatch( targetBatch )
-						if x ~= self._.parameters then
-							self._.parameters:copy( x )
-						end
-						self._.gradParameters:zero()
-						predictions = model:forward( inputs )
-						f = criterion:forward( predictions, targets )
-						trainingLoss = trainingLoss + f
-						df_do = criterion:backward( predictions, targets )
-						model:backward( inputs, df_do )
-						return f, self._.gradParameters
+					local inputs, targets, f, df_do, predictions, gradients
+					collectgarbage()
+					inputs = self._:InputBatch( inputBatch )
+					targets = self._:TargetBatch( targetBatch )
+					if x ~= self._.parameters then
+						self._.parameters:copy( x )
 					end
+					self._.gradParameters:zero()
+					predictions = model:forward( inputs )
+					f = criterion:forward( predictions, targets )
+					trainingLoss = trainingLoss + f
+					df_do = criterion:backward( predictions, targets )
+					model:backward( inputs, df_do )
+					return f, self._.gradParameters
+				end
 				optim.sgd( feval, self._.parameters, self._.sgdState )
 
 			end
@@ -292,6 +293,7 @@ Classifier = function( saveFile )
 
 		Dataset.process( testSet, realBatchSize, 
 			function( inputBatch, targetBatch )
+				collectgarbage()
 				inputs = self._:InputBatch( inputBatch )
 				targets = self._:TargetBatch( targetBatch )
 				predictions = model:forward( inputs )

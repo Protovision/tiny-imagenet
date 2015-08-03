@@ -184,6 +184,8 @@ Dataset._.slowProcess = function( dataset, batchSize, callback )
 	samplesProcessed = 0
 	while true do
 		local sample, inputBatch, targetBatch, samplesRemaining, size
+
+		collectgarbage()
 		samplesRemaining = dataset:size() - samplesProcessed
 		if samplesRemaining >= batchSize then
 			size = batchSize
@@ -215,6 +217,8 @@ Dataset._.fastProcess = function( dataset, batchSize, callback )
 	samplesProcessed = 0
 	while true do
 		local inputBatch, targetBatch, samplesRemaining, size
+
+		collectgarbage()
 		samplesRemaining = dataset:size() - samplesProcessed
 		if samplesRemaining >= batchSize then
 			size = batchSize

@@ -19,6 +19,7 @@ cmd:option( "-resultsFile", "results.table", "File to save results to" )
 cmd:option( "-classifierFile", "classifier.table", "File to save classifier to" )
 cmd:option( "-cuda", true, "Enable CUDA acceleration" )
 cmd:option( "-batchSize", 30, "Batch size" )
+cmd:option( "-testBatchSize", 1000, "Batch size for testing/validation" )
 cmd:option( "-learningRate", 0.01, "Learning rate" )
 cmd:option( "-learningRateDecay", 0, "Learning rate decay" )
 cmd:option( "-momentum", 0, "Momentum" )
@@ -43,6 +44,7 @@ else
 end
 results.setup = {
 	batchSize = params.batchSize,
+	testBatchSize = params.testBatchSize,
 	learningRate = params.learningRate,
 	learningRateDecay = params.learningRateDecay,
 	momentum = params.momentum,
@@ -51,6 +53,7 @@ results.setup = {
 
 classifier:setCriterion( nn.ClassNLLCriterion() )
 classifier.trainBatchSize = params.batchSize
+classifier.testBatchSize = params.testBatchSize
 classifier.learningRate = params.learningRate
 classifier.learningRateDecay = params.learningRateDecay
 classifier.momentum = params.momentum
