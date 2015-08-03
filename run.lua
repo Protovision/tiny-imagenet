@@ -22,6 +22,7 @@ cmd:option( "-batchSize", 30, "Batch size" )
 cmd:option( "-testBatchSize", 1000, "Batch size for testing/validation" )
 cmd:option( "-learningRate", 0.01, "Learning rate" )
 cmd:option( "-learningRateDecay", 0, "Learning rate decay" )
+cmd:option( "-learningRateCorrectionFactor", 1, "Divide learning rate by this factor if validation accuracy got worse" )
 cmd:option( "-momentum", 0, "Momentum" )
 cmd:option( "-weightDecay", 0.00005, "Weight decay" )
 params = cmd:parse( arg )
@@ -88,6 +89,9 @@ for epoch = #results.epochs + 1, params.maxEpochs, 1 do
 	train = classifier:train( trainingSet )
 	trainTest = classifier:test( trainingSet )
 	valTest = classifier:test( validationSet )
+	if (epoch > 1) and (valTest.accuracy < results.epochs[epoch-1].valTest.accuracy) then
+		classifier.learningRate = classifier.learningRate / params.learningRateCorrectionFactor
+	end
 	io.write( string.format(
 		"%-11d%-11.4f%-11.4f%-11.4f%-11.4f%-11.6f%-11.6f\n",
 		epoch,
