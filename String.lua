@@ -2,7 +2,7 @@
 
 	Module:		String
 
-	Author:		Mark Swoope
+	Author:		Protovision
 
 	Date:		August 1, 2015
 

@@ -4,7 +4,7 @@
 
 	Dependencies:	cutorch, cunn, optim, Dataset
 
-	Author:		Mark Swoope
+	Author:		Protovision
 
 	Date:		August 1, 2015
 
